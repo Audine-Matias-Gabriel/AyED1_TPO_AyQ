@@ -1,5 +1,5 @@
 
-def validar_torre(inicio_f, inicio_c, final_f, final_c) -> bool:
+def validar_torre(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
     """
     Valida si el movimiento de la torre desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
@@ -36,7 +36,7 @@ def validar_torre(inicio_f, inicio_c, final_f, final_c) -> bool:
         return False
 
 
-def validar_alfil(inicio_f, inicio_c, final_f, final_c) -> bool:
+def validar_alfil(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
     """
     Valida si el movimiento del alfil desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
@@ -70,7 +70,7 @@ def validar_alfil(inicio_f, inicio_c, final_f, final_c) -> bool:
     else:
         return False
     
-def validar_caballo(inicio_f, inicio_c, final_f, final_c) -> bool:
+def validar_caballo(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
     """
     Valida si el movimiento del caballo desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
@@ -94,7 +94,7 @@ def validar_caballo(inicio_f, inicio_c, final_f, final_c) -> bool:
         return False
 
 
-def validar_reina(inicio_f, inicio_c, final_f, final_c) -> bool:
+def validar_reina(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
     """
     Valida si el movimiento de la reina desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
@@ -106,10 +106,10 @@ def validar_reina(inicio_f, inicio_c, final_f, final_c) -> bool:
       o diagonal y no hay piezas intermedias.
     - Devuelve False si el movimiento no es válido.
     """
-    return validar_torre(inicio_f, inicio_c, final_f, final_c) or validar_alfil(inicio_f, inicio_c, final_f, final_c)
+    return validar_torre(inicio_f, inicio_c, final_f, final_c, tablero) or validar_alfil(inicio_f, inicio_c, final_f, final_c, tablero)
 
 
-def validar_rey(inicio_f, inicio_c, final_f, final_c) -> bool:
+def validar_rey(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
     """
     Valida si el movimiento del rey desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
@@ -124,7 +124,7 @@ def validar_rey(inicio_f, inicio_c, final_f, final_c) -> bool:
     return (abs(final_f - inicio_f) == 1 or abs(final_c - inicio_c) == 1) and ((abs(final_f - inicio_f) + abs(final_c - inicio_c)) < 3)
 
 
-def validar_peon(inicio_f, inicio_c, final_f, final_c, color) -> bool:
+def validar_peon(inicio_f, inicio_c, final_f, final_c, tablero, color) -> bool:
     """
     Valida si el movimiento del peón desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
@@ -139,12 +139,12 @@ def validar_peon(inicio_f, inicio_c, final_f, final_c, color) -> bool:
     - Devuelve False si el movimiento no es válido.
     """
     if color == 'b':
-        return validar_p_blanco(inicio_f, inicio_c, final_f, final_c)
+        return validar_p_blanco(inicio_f, inicio_c, final_f, final_c, tablero)
     elif color == 'n':
-        return validar_p_negro(inicio_f, inicio_c, final_f, final_c)
+        return validar_p_negro(inicio_f, inicio_c, final_f, final_c, tablero)
     return False
 
-def validar_p_blanco(inicio_f, inicio_c, final_f, final_c):
+def validar_p_blanco(inicio_f, inicio_c, final_f, final_c, tablero):
     # Peón blanco
     if (final_c == inicio_c) and ('' in tablero[final_f][final_c]):
         if (final_f == inicio_f - 1) or ((final_f == inicio_f - 2) and (inicio_f == 6)):
@@ -155,7 +155,7 @@ def validar_p_blanco(inicio_f, inicio_c, final_f, final_c):
     else:
         return False
 
-def validar_p_negro(inicio_f, inicio_c, final_f, final_c):
+def validar_p_negro(inicio_f, inicio_c, final_f, final_c, tablero):
     # Peón negro
     if (final_c == inicio_c) and ('' in tablero[final_f][final_c]):
         if (final_f == inicio_f + 1) or ((final_f == inicio_f + 2) and (inicio_f == 1)):

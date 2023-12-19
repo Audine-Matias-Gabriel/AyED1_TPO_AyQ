@@ -18,7 +18,7 @@ def obtener_coordenadas():
             print('Ingrese coordenadas válidas (números enteros).')
             
 
-def mov_peon_b(a, b) -> None:
+def mov_peon_b(a, b, tablero) -> None:
     """Mueve el peón blanco desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
     pre:a y b son enteros representando la fila y columna de la posición actual del peón blanco en el tablero.
@@ -30,7 +30,7 @@ def mov_peon_b(a, b) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
-        if val.validar_peon(a, b, fin_f, fin_c, 'b'):
+        if val.validar_peon(a, b, fin_f, fin_c, tablero, 'b'):
             # para capturar en diagonal
             if 'peon' in tablero[fin_f][fin_c] and tablero[fin_f][fin_c].endswith('n'):
                 print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
@@ -42,7 +42,7 @@ def mov_peon_b(a, b) -> None:
             continue
 
 
-def mov_peon_n(a, b) -> None:
+def mov_peon_n(a, b, tablero) -> None:
     """Mueve el peón negro desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
     pre:a y b son enteros representando la fila y columna de la posición actual del peón negro en el tablero.
@@ -54,7 +54,7 @@ def mov_peon_n(a, b) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
-        if val.validar_peon(a, b, fin_f, fin_c, 'n'):
+        if val.validar_peon(a, b, fin_f, fin_c, tablero, 'n'):
             # para capturar en diagonal
             if 'peon' in tablero[fin_f][fin_c] and tablero[fin_f][fin_c].endswith('b'):
                 print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
@@ -67,7 +67,7 @@ def mov_peon_n(a, b) -> None:
 
 
 
-def mov_torre_b(a, b) -> None:
+def mov_torre_b(a, b, tablero) -> None:
     """Mueve la torre blanca desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
     pre:a y b son enteros representando la fila y columna de la posición actual de la torre blanca en
@@ -84,7 +84,7 @@ def mov_torre_b(a, b) -> None:
         if (fin_c != b) and (fin_f != a):
             continue
         elif tablero[fin_f][fin_c] != '':
-            valido = val.validar_torre(a, b, fin_f, fin_c)
+            valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
             if valido:
                 # Elimina la pieza enemiga
                 print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
@@ -101,7 +101,7 @@ def mov_torre_b(a, b) -> None:
             break
 
             
-def mov_torre_n(a, b) -> None:
+def mov_torre_n(a, b, tablero) -> None:
     """Mueve la torre negra desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
     pre:a y b son enteros representando la fila y columna de la posición actual de la torre negra en
@@ -117,7 +117,7 @@ def mov_torre_n(a, b) -> None:
         if (fin_c != b) and (fin_f != a):
             continue
         elif tablero[fin_f][fin_c] != '':
-            valido = val.validar_torre(a, b, fin_f, fin_c)
+            valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
             if valido:
                 # Elimina la pieza enemiga
                 print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
@@ -136,7 +136,7 @@ def mov_torre_n(a, b) -> None:
             
             
             
-def mov_alfil_b(a, b) -> None:
+def mov_alfil_b(a, b, tablero) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
@@ -146,7 +146,7 @@ def mov_alfil_b(a, b) -> None:
             continue
         elif ('' in tablero[fin_f][fin_c]):
             # Valida movimiento y captura
-            valido = val.validar_alfil(a, b, fin_f, fin_c)
+            valido = val.validar_alfil(a, b, fin_f, fin_c, tablero)
             if valido:
                 # Captura diagonal
                 if tablero[fin_f][fin_c] != '':
@@ -159,7 +159,7 @@ def mov_alfil_b(a, b) -> None:
             print("Casilla ocupada. Inténtelo de nuevo.")
 
 
-def mov_alfil_n(a, b) -> None:
+def mov_alfil_n(a, b, tablero) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
@@ -168,7 +168,7 @@ def mov_alfil_n(a, b) -> None:
         elif (a - fin_f) != (b - fin_c):
             continue
         elif ('' in tablero[fin_f][fin_c]):
-            valido = val.validar_alfil(a, b, fin_f, fin_c)
+            valido = val.validar_alfil(a, b, fin_f, fin_c, tablero)
             if valido:
                 if tablero[fin_f][fin_c] != '':
                     print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
@@ -180,7 +180,7 @@ def mov_alfil_n(a, b) -> None:
             print("Casilla ocupada. Inténtelo de nuevo.")
             
 
-def mov_caballo_b(a, b) -> None:
+def mov_caballo_b(a, b, tablero) -> None:
     """Mueve el caballo blanco desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
     pre:
@@ -194,7 +194,7 @@ def mov_caballo_b(a, b) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
-        if val.validar_caballo(a, b, fin_f, fin_c):
+        if val.validar_caballo(a, b, fin_f, fin_c, tablero):
             if tablero[fin_f][fin_c] != '':
                 print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
                 tablero[fin_f][fin_c] = ''
@@ -203,11 +203,11 @@ def mov_caballo_b(a, b) -> None:
         else:
             continue
         
-def mov_caballo_n(a, b) -> None:
+def mov_caballo_n(a, b, tablero) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
-        if val.validar_caballo(a, b, fin_f, fin_c):
+        if val.validar_caballo(a, b, fin_f, fin_c, tablero):
             if tablero[fin_f][fin_c] != '':
                 print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
                 tablero[fin_f][fin_c] = ''
@@ -216,11 +216,11 @@ def mov_caballo_n(a, b) -> None:
         else:
             continue
 
-def mov_reina_b(a, b) -> None:
+def mov_reina_b(a, b, tablero) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
-        if val.validar_reina(a, b, fin_f, fin_c):
+        if val.validar_reina(a, b, fin_f, fin_c, tablero):
             # Captura diagonal
             if tablero[fin_f][fin_c] != '':
                 print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
@@ -230,11 +230,11 @@ def mov_reina_b(a, b) -> None:
             print("Movimiento inválido. Inténtelo de nuevo.")
         
         
-def mov_reina_n(a, b) -> None:
+def mov_reina_n(a, b, tablero) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
-        if val.validar_reina(a, b, fin_f, fin_c):
+        if val.validar_reina(a, b, fin_f, fin_c, tablero):
             if tablero[fin_f][fin_c] != '':
                 print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
@@ -243,11 +243,11 @@ def mov_reina_n(a, b) -> None:
             print("Movimiento inválido. Inténtelo de nuevo.")
 
 
-def mov_rey_b(a, b) -> None:
+def mov_rey_b(a, b, tablero) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
-        if val.validar_rey(a, b, fin_f, fin_c):
+        if val.validar_rey(a, b, fin_f, fin_c, tablero):
             # Capturar pieza enemiga si la hay
             if tablero[fin_f][fin_c] != '':
                 print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
@@ -256,11 +256,11 @@ def mov_rey_b(a, b) -> None:
         else:
             continue
         
-def mov_rey_n(a, b) -> None:
+def mov_rey_n(a, b, tablero) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
-        if val.validar_rey(a, b, fin_f, fin_c):
+        if val.validar_rey(a, b, fin_f, fin_c, tablero):
             # Capturar pieza enemiga si la hay
             if tablero[fin_f][fin_c] != '':
                 print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
@@ -270,47 +270,47 @@ def mov_rey_n(a, b) -> None:
             continue
 
 
-def movimiento_blanco(fila, columna) -> bool:
+def movimiento_blanco(fila, columna, tablero) -> bool:
     if tablero[fila][columna] == 'peonb':
-        mov_peon_b(fila, columna)
+        mov_peon_b(fila, columna, tablero)
         return False
     elif tablero[fila][columna] == 'torreb':
-        mov_torre_b(fila, columna)
+        mov_torre_b(fila, columna, tablero)
         return False
     elif tablero[fila][columna] == 'alfilb':
-        mov_alfil_b(fila, columna)
+        mov_alfil_b(fila, columna, tablero)
         return False
     elif tablero[fila][columna] == 'caballob':
-        mov_caballo_b(fila, columna)
+        mov_caballo_b(fila, columna, tablero)
         return False
     elif tablero[fila][columna] == 'reinab':
-        mov_reina_b(fila, columna)
+        mov_reina_b(fila, columna, tablero)
         return False
     elif tablero[fila][columna] == 'reyb':
-        mov_rey_b(fila, columna)
+        mov_rey_b(fila, columna, tablero)
         return False
     else:
         return True
     
 
-def movimiento_negro(fila, columna) -> bool:
+def movimiento_negro(fila, columna, tablero) -> bool:
     if 'peonn' in tablero[fila][columna]:
-        mov_peon_n(fila, columna)
+        mov_peon_n(fila, columna, tablero)
         return False
     elif 'torren' in tablero[fila][columna]:
-        mov_torre_n(fila, columna)
+        mov_torre_n(fila, columna, tablero)
         return False
     elif 'alfiln' in tablero[fila][columna]:
-        mov_alfil_n(fila, columna)
+        mov_alfil_n(fila, columna, tablero)
         return False
     elif 'caballon' in tablero[fila][columna]:
-        mov_caballo_n(fila, columna)
+        mov_caballo_n(fila, columna, tablero)
         return False
     elif 'reinan' in tablero[fila][columna]:
-        mov_reina_n(fila, columna)
+        mov_reina_n(fila, columna, tablero)
         return False
     elif 'reyn' in tablero[fila][columna]:
-        mov_rey_n(fila, columna)
+        mov_rey_n(fila, columna, tablero)
         return False
     else:
         return True

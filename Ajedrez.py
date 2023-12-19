@@ -55,7 +55,7 @@ while True:
             if jugada_i_f == 69:
                 print('El jugador blanco se rinde')
                 break
-            if mov.movimiento_blanco(jugada_i_f, jugada_i_c):
+            if mov.movimiento_blanco(jugada_i_f, jugada_i_c, tablero):
                 continue
             mov_b, mov_n = False, True
         except ValueError:
@@ -68,7 +68,7 @@ while True:
             if jugada_i_f == 69:
                 print('El jugador negro se rinde')
                 break
-            if mov.movimiento_negro(jugada_i_f, jugada_i_c):
+            if mov.movimiento_negro(jugada_i_f, jugada_i_c, tablero):
                 continue
             mov_b, mov_n = True, False
         except ValueError:
