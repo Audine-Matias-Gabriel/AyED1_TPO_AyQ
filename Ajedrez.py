@@ -61,6 +61,9 @@ while True:
         except ValueError:
             print('Ingrese las coordenadas en entero.')
     imprimir_tablero(tablero)
+    if 'reyn' not in tablero:
+        print('El jugador blanco gana')
+        break
     while mov_n:
         try:
             jugada_i_f = int(input('Fila de pieza negra a mover: '))
@@ -73,3 +76,6 @@ while True:
             mov_b, mov_n = True, False
         except ValueError:
             print('Ingrese las coordenadas en entero.')
+    if 'reyb' not in tablero:
+        print('El jugador negro gana')
+        break
