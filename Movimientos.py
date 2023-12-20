@@ -83,6 +83,14 @@ def mov_torre_b(a, b, tablero) -> None:
         # Verifica si el movimiento es válido
         if (fin_c != b) and (fin_f != a):
             continue
+        elif tablero[fin_f][fin_c] == 'reyb':
+            valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
+            if valido:
+                print(f'¡Enroque!')
+                tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
+                break
+            else:
+                print('Movimiento no válido. Inténtelo de nuevo.')
         elif tablero[fin_f][fin_c] != '':
             valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
             if valido:
@@ -116,6 +124,14 @@ def mov_torre_n(a, b, tablero) -> None:
         
         if (fin_c != b) and (fin_f != a):
             continue
+        elif tablero[fin_f][fin_c] == 'reyn':
+            valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
+            if valido:
+                print(f'¡Enroque!')
+                tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
+                break
+            else:
+                print('Movimiento no válido. Inténtelo de nuevo.')
         elif tablero[fin_f][fin_c] != '':
             valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
             if valido:
@@ -247,7 +263,7 @@ def mov_rey_b(a, b, tablero) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
-        if val.validar_rey(a, b, fin_f, fin_c, tablero):
+        if val.validar_rey(a, b, fin_f, fin_c):
             # Capturar pieza enemiga si la hay
             if tablero[fin_f][fin_c] != '':
                 print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
@@ -260,7 +276,7 @@ def mov_rey_n(a, b, tablero) -> None:
     while True:
         fin_f, fin_c = obtener_coordenadas()
         
-        if val.validar_rey(a, b, fin_f, fin_c, tablero):
+        if val.validar_rey(a, b, fin_f, fin_c):
             # Capturar pieza enemiga si la hay
             if tablero[fin_f][fin_c] != '':
                 print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')

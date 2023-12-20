@@ -109,7 +109,7 @@ def validar_reina(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
     return validar_torre(inicio_f, inicio_c, final_f, final_c, tablero) or validar_alfil(inicio_f, inicio_c, final_f, final_c, tablero)
 
 
-def validar_rey(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
+def validar_rey(inicio_f, inicio_c, final_f, final_c) -> bool:
     """
     Valida si el movimiento del rey desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
@@ -121,7 +121,9 @@ def validar_rey(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
       en cualquier dirección.
     - Devuelve False si el movimiento no es válido.
     """
-    return (abs(final_f - inicio_f) == 1 or abs(final_c - inicio_c) == 1) and ((abs(final_f - inicio_f) + abs(final_c - inicio_c)) < 3)
+    return (0 <= final_f <= 7) and (0 <= final_c <= 7) \
+        and (abs(final_f - inicio_f) == 1 or abs(final_c - inicio_c) == 1) \
+            and ((abs(final_f - inicio_f) + abs(final_c - inicio_c)) < 3)
 
 
 def validar_peon(inicio_f, inicio_c, final_f, final_c, tablero, color) -> bool:
