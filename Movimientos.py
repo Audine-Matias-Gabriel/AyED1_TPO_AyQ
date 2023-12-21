@@ -83,10 +83,11 @@ def mov_torre_b(a, b, tablero) -> None:
         # Verifica si el movimiento es válido
         if (fin_c != b) and (fin_f != a):
             continue
-        elif tablero[fin_f][fin_c] == 'reyb':
+        elif (tablero[fin_f][fin_c] == 'reyb') and (tablero[a][b] == 'torreb') and enroque_blanco:
             valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
             if valido:
                 print(f'¡Enroque!')
+                enroque_blanco = False
                 tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
                 break
             else:
@@ -124,10 +125,11 @@ def mov_torre_n(a, b, tablero) -> None:
         
         if (fin_c != b) and (fin_f != a):
             continue
-        elif tablero[fin_f][fin_c] == 'reyn':
+        elif (tablero[fin_f][fin_c] == 'reyn') and (tablero[a][b] == 'torren') and enroque_negro:
             valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
             if valido:
                 print(f'¡Enroque!')
+                enroque_negro = False
                 tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
                 break
             else:
@@ -267,6 +269,7 @@ def mov_rey_b(a, b, tablero) -> None:
             # Capturar pieza enemiga si la hay
             if tablero[fin_f][fin_c] != '':
                 print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
+            enroque_blanco = False
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
@@ -280,6 +283,7 @@ def mov_rey_n(a, b, tablero) -> None:
             # Capturar pieza enemiga si la hay
             if tablero[fin_f][fin_c] != '':
                 print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
+            enroque_negro = False
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
@@ -330,3 +334,6 @@ def movimiento_negro(fila, columna, tablero) -> bool:
         return False
     else:
         return True
+
+enroque_blanco = True
+enroque_negro = True
