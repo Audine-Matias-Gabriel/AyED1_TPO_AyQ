@@ -41,6 +41,7 @@ tablero = [['torren', 'caballon', 'alfiln', 'reinan', 'reyn', 'alfiln', 'caballo
            ['peonb', 'peonb', 'peonb', 'peonb', 'peonb', 'peonb', 'peonb', 'peonb'],
            ['torreb', 'caballob', 'alfilb', 'reinab', 'reyb', 'alfilb', 'caballob', 'torreb']]
 
+promos = ('torre', 'caballo', 'alfil', 'reina')
 
 mov_b = True
 mov_n = False
@@ -60,6 +61,7 @@ while True:
             mov_b, mov_n = False, True
         except ValueError:
             print('Ingrese las coordenadas en entero.')
+    mov.promocion(tablero, promos)
     imprimir_tablero(tablero)
     if 'reyn' not in tablero:
         print('El jugador blanco gana')
@@ -76,6 +78,8 @@ while True:
             mov_b, mov_n = True, False
         except ValueError:
             print('Ingrese las coordenadas en entero.')
+    mov.promocion(tablero, promos)
+    imprimir_tablero(tablero)
     if 'reyb' not in tablero:
         print('El jugador negro gana')
         break

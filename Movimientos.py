@@ -289,6 +289,15 @@ def mov_rey_n(a, b, tablero) -> None:
         else:
             continue
 
+def promocion(tablero, promos) -> None:
+    if 'peonb' in tablero[0]:
+        print('Peon blanco promociona')
+        promocionado = promos[int(input('1-Torre, 2-Caballo, 3-Alfil, 4-Reina'))]
+        tablero[0][tablero[0].index('peonb')] = promocionado + 'b'
+    if 'peonb' in tablero[0]:
+        print('Peon negro promociona')
+        promocionado = promos[int(input('1-Torre, 2-Caballo, 3-Alfil, 4-Reina'))]
+        tablero[0][tablero[0].index('peonn')] = promocionado + 'n'
 
 def movimiento_blanco(fila, columna, tablero) -> bool:
     if tablero[fila][columna] == 'peonb':
