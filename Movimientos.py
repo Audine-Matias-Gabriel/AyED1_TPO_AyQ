@@ -1,7 +1,7 @@
 
 import Validaciones as val
 
-def obtener_coordenadas():
+def obtener_coordenadas() -> tuple:
     """Obtiene las coordenadas (fila, columna) del usuario.
 
     pre:
@@ -11,8 +11,8 @@ def obtener_coordenadas():
     """
     while True:
         try:
-            fila = int(input(f'Fila objetivo: '))
-            columna = int(input(f'Columna objetivo: '))
+            fila = int(input('Fila objetivo: '))
+            columna = int(input('Columna objetivo: '))
             return fila, columna
         except ValueError:
             print('Ingrese coordenadas válidas (números enteros).')
@@ -27,18 +27,27 @@ def mov_peon_b(a, b, tablero) -> None:
     - Realiza el movimiento si es válido, capturando piezas enemigas en diagonal si es posible.
     - Imprime un mensaje de error si el movimiento no es válido.
     """
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
         if val.validar_peon(a, b, fin_f, fin_c, tablero, 'b'):
             # para capturar en diagonal
-            if 'peon' in tablero[fin_f][fin_c] and tablero[fin_f][fin_c].endswith('n'):
+            if tablero[fin_f][fin_c].endswith('n'):
                 print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
                 tablero[fin_f][fin_c] = ''
+            elif tablero[fin_f][fin_c].endswith('b'):
+                print('Movimiento inválido.')
+                contador += 1
+                continue
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
             print("Movimiento inválido.")
+            contador += 1
             continue
 
 
@@ -51,18 +60,27 @@ def mov_peon_n(a, b, tablero) -> None:
     - Realiza el movimiento si es válido, capturando piezas enemigas en diagonal si es posible.
     - Imprime un mensaje de error si el movimiento no es válido.
     """
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
         if val.validar_peon(a, b, fin_f, fin_c, tablero, 'n'):
             # para capturar en diagonal
-            if 'peon' in tablero[fin_f][fin_c] and tablero[fin_f][fin_c].endswith('b'):
+            if tablero[fin_f][fin_c].endswith('b'):
                 print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
                 tablero[fin_f][fin_c] = ''
+            elif tablero[fin_f][fin_c].endswith('n'):
+                print('Movimiento inválido.')
+                contador += 1
+                continue
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
             print("Movimiento inválido.")
+            contador += 1
             continue
 
 
@@ -77,21 +95,28 @@ def mov_torre_b(a, b, tablero) -> None:
     - Realiza el movimiento si es válido, capturando piezas enemigas si es posible.
     - Imprime un mensaje de error si el movimiento no es válido.
     """
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
         # Verifica si el movimiento es válido
         if (fin_c != b) and (fin_f != a):
+            print('Movimiento inválido.')
+            contador += 1
             continue
         elif (tablero[fin_f][fin_c] == 'reyb') and (tablero[a][b] == 'torreb') and enroque_blanco:
             valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
             if valido:
-                print(f'¡Enroque!')
+                print('¡Enroque!')
                 enroque_blanco = False
                 tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
                 break
             else:
                 print('Movimiento no válido. Inténtelo de nuevo.')
+                contador += 1
         elif tablero[fin_f][fin_c] != '':
             valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
             if valido:
@@ -104,6 +129,7 @@ def mov_torre_b(a, b, tablero) -> None:
                 break
             else:
                 print('Movimiento no válido. Inténtelo de nuevo.')
+                contador += 1
         else:
             # Mueve la torre
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
@@ -120,20 +146,27 @@ def mov_torre_n(a, b, tablero) -> None:
     - Realiza el movimiento si es válido, capturando piezas enemigas si es posible.
     - Imprime un mensaje de error si el movimiento no es válido.
     """
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
         if (fin_c != b) and (fin_f != a):
+            print('Movimiento inválido.')
+            contador += 1
             continue
         elif (tablero[fin_f][fin_c] == 'reyn') and (tablero[a][b] == 'torren') and enroque_negro:
             valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
             if valido:
-                print(f'¡Enroque!')
+                print('¡Enroque!')
                 enroque_negro = False
                 tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
                 break
             else:
                 print('Movimiento no válido. Inténtelo de nuevo.')
+                contador += 1
         elif tablero[fin_f][fin_c] != '':
             valido = val.validar_torre(a, b, fin_f, fin_c, tablero)
             if valido:
@@ -146,6 +179,7 @@ def mov_torre_n(a, b, tablero) -> None:
                 break
             else:
                 print('Movimiento no válido. Inténtelo de nuevo.')
+                contador += 1
         else:
             # Mueve la torre
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
@@ -155,47 +189,74 @@ def mov_torre_n(a, b, tablero) -> None:
             
             
 def mov_alfil_b(a, b, tablero) -> None:
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
-        if (fin_c == b) or (fin_f == a):
+        if (fin_c == b) or (fin_f == a) or ((a - fin_f) != (b - fin_c)):
+            print('Movimiento inválido.')
+            contador += 1
             continue
-        elif (a - fin_f) != (b - fin_c):
+        elif tablero[fin_f][fin_c].endswith('b'):
+            print('Movimiento inválido.')
+            contador += 1
             continue
         elif ('' in tablero[fin_f][fin_c]):
             # Valida movimiento y captura
-            valido = val.validar_alfil(a, b, fin_f, fin_c, tablero)
-            if valido:
-                # Captura diagonal
-                if tablero[fin_f][fin_c] != '':
-                    print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
+            if val.validar_alfil(a, b, fin_f, fin_c, tablero):
                 tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
                 return
             else:
                 print("Movimiento inválido.")
+                contador += 1
+        # Captura diagonal
+        elif tablero[fin_f][fin_c].endswith('n'):
+            if val.validar_alfil(a, b, fin_f, fin_c, tablero):
+                print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
+                tablero[fin_f][fin_c] = ''
+                tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
+                return
+            else:
+                print("Movimiento inválido.")
+                contador += 1
         else:
             print("Casilla ocupada. Inténtelo de nuevo.")
+            contador += 1
 
 
 def mov_alfil_n(a, b, tablero) -> None:
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
-        if (fin_c == b) or (fin_f == a):
-            continue
-        elif (a - fin_f) != (b - fin_c):
+        if (fin_c == b) or (fin_f == a) or ((a - fin_f) != (b - fin_c)):
+            print('Movimiento inválido.')
+            contador += 1
             continue
         elif ('' in tablero[fin_f][fin_c]):
             valido = val.validar_alfil(a, b, fin_f, fin_c, tablero)
             if valido:
-                if tablero[fin_f][fin_c] != '':
-                    print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
+                if tablero[fin_f][fin_c].endswith('b'):
+                    print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
+                    tablero[fin_f][fin_c] = ''
+                elif tablero[fin_f][fin_c].endswith('n'):
+                    print('Movimiento inválido.')
+                    contador += 1
+                    continue
                 tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
                 return
             else:
                 print("Movimiento inválido.")
+                contador += 1
         else:
             print("Casilla ocupada. Inténtelo de nuevo.")
+            contador += 1
             
 
 def mov_caballo_b(a, b, tablero) -> None:
@@ -209,84 +270,146 @@ def mov_caballo_b(a, b, tablero) -> None:
     - Realiza el movimiento si es válido, capturando piezas enemigas si corresponde.
     - Imprime un mensaje de error si el movimiento no es válido.
     """
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
         if val.validar_caballo(a, b, fin_f, fin_c, tablero):
-            if tablero[fin_f][fin_c] != '':
-                print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
+            if tablero[fin_f][fin_c].endswith('n'):
+                print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
                 tablero[fin_f][fin_c] = ''
+            elif tablero[fin_f][fin_c].endswith('b'):
+                print('Movimiento inválido.')
+                contador += 1
+                continue
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
+            print('Movimiento inválido.')
+            contador += 1
             continue
         
 def mov_caballo_n(a, b, tablero) -> None:
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
         if val.validar_caballo(a, b, fin_f, fin_c, tablero):
-            if tablero[fin_f][fin_c] != '':
-                print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
+            if tablero[fin_f][fin_c].endswith('b'):
+                print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
                 tablero[fin_f][fin_c] = ''
+            elif tablero[fin_f][fin_c].endswith('n'):
+                print('Movimiento inválido.')
+                contador += 1
+                continue
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
+            print('Movimiento inválido.')
+            contador += 1
             continue
 
 def mov_reina_b(a, b, tablero) -> None:
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
         if val.validar_reina(a, b, fin_f, fin_c, tablero):
             # Captura diagonal
-            if tablero[fin_f][fin_c] != '':
-                print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
+            if tablero[fin_f][fin_c].endswith('n'):
+                print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
+                tablero[fin_f][fin_c] = ''
+            elif tablero[fin_f][fin_c].endswith('b'):
+                print('Movimiento inválido.')
+                contador += 1
+                continue
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
             print("Movimiento inválido. Inténtelo de nuevo.")
+            contador += 1
         
         
 def mov_reina_n(a, b, tablero) -> None:
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
         if val.validar_reina(a, b, fin_f, fin_c, tablero):
-            if tablero[fin_f][fin_c] != '':
-                print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
+            if tablero[fin_f][fin_c].endswith('b'):
+                print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
+                tablero[fin_f][fin_c] = ''
+            elif tablero[fin_f][fin_c].endswith('n'):
+                print('Movimiento inválido.')
+                contador += 1
+                continue
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
             print("Movimiento inválido. Inténtelo de nuevo.")
+            contador += 1
 
 
 def mov_rey_b(a, b, tablero) -> None:
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
         if val.validar_rey(a, b, fin_f, fin_c):
             # Capturar pieza enemiga si la hay
-            if tablero[fin_f][fin_c] != '':
+            if tablero[fin_f][fin_c].endswith('n'):
                 print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
+                tablero[fin_f][fin_c] = ''
+            elif tablero[fin_f][fin_c].endswith('b'):
+                print('Movimiento inválido.')
+                contador += 1
+                continue
             enroque_blanco = False
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
+            print('Movimiento inválido.')
+            contador += 1
             continue
         
 def mov_rey_n(a, b, tablero) -> None:
+    contador = 0
     while True:
+        if contador > 4:
+            print('Demasiados intentos')
+            return
         fin_f, fin_c = obtener_coordenadas()
         
         if val.validar_rey(a, b, fin_f, fin_c):
             # Capturar pieza enemiga si la hay
-            if tablero[fin_f][fin_c] != '':
+            if tablero[fin_f][fin_c].endswith('b'):
                 print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
+                tablero[fin_f][fin_c] = ''
+            elif tablero[fin_f][fin_c].endswith('n'):
+                print('Movimiento inválido.')
+                contador += 1
+                continue
             enroque_negro = False
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
+            print('Movimiento inválido.')
+            contador += 1
             continue
 
 def promocion(tablero, promos) -> None:

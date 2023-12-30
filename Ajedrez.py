@@ -46,9 +46,12 @@ promos = ('torre', 'caballo', 'alfil', 'reina')
 mov_b = True
 mov_n = False
 
+imprimir_tablero(tablero)
 
 while True:
-    imprimir_tablero(tablero)
+    rey_blanco = False
+    rey_negro = False
+    
     while mov_b:
         try:
             jugada_i_f = int(input('Fila de pieza blanca a mover: '))
@@ -63,9 +66,12 @@ while True:
             print('Ingrese las coordenadas en entero.')
     mov.promocion(tablero, promos)
     imprimir_tablero(tablero)
-    if 'reyn' not in tablero:
+    for a in tablero:
+        if 'reyn' in a:
+            rey_negro = True
+            break
+    if not rey_negro:
         print('El jugador blanco gana')
-        break
     while mov_n:
         try:
             jugada_i_f = int(input('Fila de pieza negra a mover: '))
@@ -80,6 +86,9 @@ while True:
             print('Ingrese las coordenadas en entero.')
     mov.promocion(tablero, promos)
     imprimir_tablero(tablero)
-    if 'reyb' not in tablero:
+    for a in tablero:
+        if 'reyb' in a:
+            rey_blanco = True
+            break
+    if not rey_blanco:
         print('El jugador negro gana')
-        break
