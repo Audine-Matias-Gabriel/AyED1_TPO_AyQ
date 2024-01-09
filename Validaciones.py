@@ -126,7 +126,7 @@ def validar_rey(inicio_f, inicio_c, final_f, final_c) -> bool:
             and ((abs(final_f - inicio_f) + abs(final_c - inicio_c)) < 3)
 
 
-def validar_peon(inicio_f, inicio_c, final_f, final_c, tablero, color) -> bool:
+def validar_peon(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
     """
     Valida si el movimiento del peón desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
@@ -140,30 +140,33 @@ def validar_peon(inicio_f, inicio_c, final_f, final_c, tablero, color) -> bool:
       o si captura diagonalmente una pieza enemiga.
     - Devuelve False si el movimiento no es válido.
     """
-    if color == 'b':
+    if (tablero[inicio_f][inicio_c])[-1] == 'b':
         return validar_p_blanco(inicio_f, inicio_c, final_f, final_c, tablero)
-    elif color == 'n':
+    elif (tablero[inicio_f][inicio_c])[-1] == 'n':
         return validar_p_negro(inicio_f, inicio_c, final_f, final_c, tablero)
     return False
 
 def validar_p_blanco(inicio_f, inicio_c, final_f, final_c, tablero):
     # Peón blanco
-    if (final_c == inicio_c) and ('' in tablero[final_f][final_c]):
-        if (final_f == inicio_f - 1) or ((final_f == inicio_f - 2) and (inicio_f == 6)):
-            return True
-    elif (abs(final_c - inicio_c) == 1) and (final_f == inicio_f - 1):
-        if 'peon' in tablero[final_f][final_c] and tablero[final_f][final_c].endswith('n'):
-            return True
+    if (final_c == inicio_c) and ('' in tablero[final_f][final_c]) and ((final_f == inicio_f - 1) or ((final_f == inicio_f - 2) and (inicio_f == 6))):
+        return True
+    elif (abs(final_c - inicio_c) == 1) and (final_f == inicio_f - 1) and tablero[final_f][final_c].endswith('n'):
+        return True
     else:
         return False
 
 def validar_p_negro(inicio_f, inicio_c, final_f, final_c, tablero):
     # Peón negro
-    if (final_c == inicio_c) and ('' in tablero[final_f][final_c]):
-        if (final_f == inicio_f + 1) or ((final_f == inicio_f + 2) and (inicio_f == 1)):
-            return True
-    elif (abs(final_c - inicio_c) == 1) and (final_f == inicio_f + 1):
-        if 'peon' in tablero[final_f][final_c] and tablero[final_f][final_c].endswith('b'):
-            return True
+    if (final_c == inicio_c) and ('' in tablero[final_f][final_c]) and ((final_f == inicio_f + 1) or ((final_f == inicio_f + 2) and (inicio_f == 1))):
+        return True
+    elif (abs(final_c - inicio_c) == 1) and (final_f == inicio_f + 1) and tablero[final_f][final_c].endswith('b'):
+        return True
     else:
         return False
+
+def validar_victoria(color) -> bool:
+    for fila in tablero:
+        for elem in fila:
+            if 'rey' in elem and elem.endswith(color):
+                return True
+    return False

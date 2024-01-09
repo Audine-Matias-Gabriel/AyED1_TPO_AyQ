@@ -1,5 +1,6 @@
 
 import Movimientos as mov
+import Validaciones as val
 
 def imprimir_tablero(tablero) -> None:
     """Imprime el tablero de ajedrez con las piezas actuales.
@@ -32,6 +33,7 @@ def imprimir_tablero(tablero) -> None:
         
         print("\n +" + "-----------+" * len(tablero[0])) # Imprime los bordes inferiores de las casillas
 
+
 tablero = [['torren', 'caballon', 'alfiln', 'reinan', 'reyn', 'alfiln', 'caballon', 'torren'],
            ['peonn', 'peonn', 'peonn', 'peonn', 'peonn', 'peonn', 'peonn', 'peonn'],
            ['' for _ in range(8)],
@@ -49,16 +51,18 @@ mov_n = False
 imprimir_tablero(tablero)
 
 while True:
-    rey_blanco = False
-    rey_negro = False
     
     while mov_b:
         try:
             jugada_i_f = int(input('Fila de pieza blanca a mover: '))
-            jugada_i_c = int(input('Columna de pieza blanca a mover: '))
             if jugada_i_f == 69:
                 print('El jugador blanco se rinde')
+                for fila in tablero:
+                    for elemento in fila:
+                        if elemento == 'reyn':
+                            elemento = ''
                 break
+            jugada_i_c = int(input('Columna de pieza blanca a mover: '))
             if mov.movimiento_blanco(jugada_i_f, jugada_i_c, tablero):
                 continue
             mov_b, mov_n = False, True
@@ -66,19 +70,23 @@ while True:
             print('Ingrese las coordenadas en entero.')
     mov.promocion(tablero, promos)
     imprimir_tablero(tablero)
-    for a in tablero:
-        if 'reyn' in a:
-            rey_negro = True
-            break
-    if not rey_negro:
+    if not val.validar_victoria('b'):
+        print('El jugador negro gana')
+        break
+    if not val.validar_victoria('n'):
         print('El jugador blanco gana')
+        break
     while mov_n:
         try:
             jugada_i_f = int(input('Fila de pieza negra a mover: '))
-            jugada_i_c = int(input('Columna de pieza negra a mover: '))
             if jugada_i_f == 69:
                 print('El jugador negro se rinde')
+                for fila in tablero:
+                    for elemento in fila:
+                        if elemento == 'reyn':
+                            elemento = ''
                 break
+            jugada_i_c = int(input('Columna de pieza negra a mover: '))
             if mov.movimiento_negro(jugada_i_f, jugada_i_c, tablero):
                 continue
             mov_b, mov_n = True, False
@@ -86,9 +94,9 @@ while True:
             print('Ingrese las coordenadas en entero.')
     mov.promocion(tablero, promos)
     imprimir_tablero(tablero)
-    for a in tablero:
-        if 'reyb' in a:
-            rey_blanco = True
-            break
-    if not rey_blanco:
+    if not val.validar_victoria('b'):
         print('El jugador negro gana')
+        break
+    if not val.validar_victoria('n'):
+        print('El jugador blanco gana')
+        break
