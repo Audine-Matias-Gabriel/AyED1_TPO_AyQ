@@ -164,7 +164,7 @@ def validar_p_negro(inicio_f, inicio_c, final_f, final_c, tablero):
     else:
         return False
 
-def validar_victoria(color) -> bool:
+def validar_victoria(color, tablero) -> bool:
     for fila in tablero:
         for elem in fila:
             if 'rey' in elem and elem.endswith(color):

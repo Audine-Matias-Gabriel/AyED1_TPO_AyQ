@@ -16,7 +16,7 @@ def obtener_coordenadas() -> tuple:
             return fila, columna
         except ValueError:
             print('Ingrese coordenadas válidas (números enteros).')
-            
+
 
 def mov_peon_b(a, b, tablero) -> None:
     """Mueve el peón blanco desde la posición (a, b) a una posición objetivo ingresada por el usuario.
@@ -105,17 +105,20 @@ def mov_torre_b(a, b, tablero) -> None:
             print('Movimiento inválido.')
             contador += 1
             continue
-        elif (tablero[fin_f][fin_c] == 'reyb') and (tablero[a][b] == 'torreb') and enroque_blanco and valido:
+        elif (tablero[fin_f][fin_c] == 'reyb') and (tablero[a][b] == 'torreb') and diccionario_enroque['enroque_blanco'] and valido:
             print('¡Enroque!')
-            enroque_blanco = False
+            diccionario_enroque['enroque_blanco'] = False
             if fin_c < b:
-                tablero[fin_f][fin_c] = tablero[fin_f][fin_c + 2]
-                tablero[a][b] = tablero[fin_f][fin_c + 1]
+                tablero[fin_f][fin_c + 2] = tablero[fin_f][fin_c]
+                tablero[fin_f][fin_c] = ''
+                tablero[fin_f][fin_c + 1] = tablero[a][b]
+                tablero[a][b] = ''
             else:
-                tablero[fin_f][fin_c] = tablero[fin_f][fin_c - 2]
-                tablero[a][b] = tablero[fin_f][fin_c - 1]
+                tablero[fin_f][fin_c - 2] = tablero[fin_f][fin_c]
+                tablero[fin_f][fin_c] = ''
+                tablero[fin_f][fin_c - 1] = tablero[a][b]
+                tablero[a][b] = ''
             break
-                contador += 1
         elif tablero[fin_f][fin_c].endswith('n') and valido:
             # Elimina la pieza enemiga
             print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
@@ -132,7 +135,7 @@ def mov_torre_b(a, b, tablero) -> None:
             print('Movimiento inválido')
             contador += 1
 
-            
+
 def mov_torre_n(a, b, tablero) -> None:
     """Mueve la torre negra desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
@@ -157,17 +160,20 @@ def mov_torre_n(a, b, tablero) -> None:
             print('Movimiento inválido.')
             contador += 1
             continue
-        elif (tablero[fin_f][fin_c] == 'reyn') and (tablero[a][b] == 'torren') and enroque_blanco and valido:
+        elif (tablero[fin_f][fin_c] == 'reyn') and (tablero[a][b] == 'torren') and diccionario_enroque['enroque_negro'] and valido:
             print('¡Enroque!')
-            enroque_blanco = False
+            diccionario_enroque['enroque_negro'] = False
             if fin_c < b:
-                tablero[fin_f][fin_c] = tablero[fin_f][fin_c + 2]
-                tablero[a][b] = tablero[fin_f][fin_c + 1]
+                tablero[fin_f][fin_c + 2] = tablero[fin_f][fin_c]
+                tablero[fin_f][fin_c] = ''
+                tablero[fin_f][fin_c + 1] = tablero[a][b]
+                tablero[a][b] = ''
             else:
-                tablero[fin_f][fin_c] = tablero[fin_f][fin_c - 2]
-                tablero[a][b] = tablero[fin_f][fin_c - 1]
+                tablero[fin_f][fin_c - 2] = tablero[fin_f][fin_c]
+                tablero[fin_f][fin_c] = ''
+                tablero[fin_f][fin_c - 1] = tablero[a][b]
+                tablero[a][b] = ''
             break
-                contador += 1
         elif tablero[fin_f][fin_c].endswith('b') and valido:
             # Elimina la pieza enemiga
             print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
@@ -184,9 +190,8 @@ def mov_torre_n(a, b, tablero) -> None:
             print('Movimiento inválido')
             contador += 1
 
-            
-            
-            
+
+
 def mov_alfil_b(a, b, tablero) -> None:
     contador = 0
     while True:
@@ -481,5 +486,4 @@ def movimiento_negro(fila, columna, tablero) -> bool:
         print('No hay una pieza negra en esa posición')
         return True
 
-enroque_blanco = True
-enroque_negro = True
+diccionario_enroque = {'enroque_blanco': True, 'enroque_negro': True}

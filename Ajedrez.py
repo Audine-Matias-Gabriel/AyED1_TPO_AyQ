@@ -61,6 +61,7 @@ while True:
                     for elemento in fila:
                         if elemento == 'reyn':
                             elemento = ''
+                            break
                 break
             jugada_i_c = int(input('Columna de pieza blanca a mover: '))
             if mov.movimiento_blanco(jugada_i_f, jugada_i_c, tablero):
@@ -70,10 +71,10 @@ while True:
             print('Ingrese las coordenadas en entero.')
     mov.promocion(tablero, promos)
     imprimir_tablero(tablero)
-    if not val.validar_victoria('b'):
+    if not val.validar_victoria('b', tablero):
         print('El jugador negro gana')
         break
-    if not val.validar_victoria('n'):
+    if not val.validar_victoria('n', tablero):
         print('El jugador blanco gana')
         break
     while mov_n:
@@ -94,9 +95,9 @@ while True:
             print('Ingrese las coordenadas en entero.')
     mov.promocion(tablero, promos)
     imprimir_tablero(tablero)
-    if not val.validar_victoria('b'):
+    if not val.validar_victoria('b', tablero):
         print('El jugador negro gana')
         break
-    if not val.validar_victoria('n'):
+    if not val.validar_victoria('n', tablero):
         print('El jugador blanco gana')
         break
