@@ -1,16 +1,18 @@
 
 import Movimientos as mov
 import Validaciones as val
+from typing import List
 
-def imprimir_tablero(tablero) -> None:
-    """Imprime el tablero de ajedrez con las piezas actuales.
+def imprimir_tablero(tablero: List[List[str]]) -> None:
+    """
+    Imprime el tablero de ajedrez con las piezas actuales.
 
-    pre:
+    Precondición:
     - tablero es una matriz que representa el estado actual del tablero de ajedrez.
       Cada elemento de la lista interior es una cadena de texto que representa una pieza en la
       posición correspondiente.
 
-    post:
+    Postcondición:
     - Imprime el tablero de ajedrez con las filas numeradas y las columnas etiquetadas.
     - Cada casilla tiene un ancho fijo.
     - Las filas están numeradas en el lado izquierdo del tablero.
@@ -43,7 +45,7 @@ tablero = [['torren', 'caballon', 'alfiln', 'reinan', 'reyn', 'alfiln', 'caballo
            ['peonb', 'peonb', 'peonb', 'peonb', 'peonb', 'peonb', 'peonb', 'peonb'],
            ['torreb', 'caballob', 'alfilb', 'reinab', 'reyb', 'alfilb', 'caballob', 'torreb']]
 
-promos = ('torre', 'caballo', 'alfil', 'reina')
+
 
 mov_b = True
 mov_n = False
@@ -69,7 +71,7 @@ while True:
             mov_b, mov_n = False, True
         except ValueError:
             print('Ingrese las coordenadas en entero.')
-    mov.promocion(tablero, promos)
+    mov.promocion(tablero)
     imprimir_tablero(tablero)
     if not val.validar_victoria('b', tablero):
         print('El jugador negro gana')
@@ -93,7 +95,7 @@ while True:
             mov_b, mov_n = True, False
         except ValueError:
             print('Ingrese las coordenadas en entero.')
-    mov.promocion(tablero, promos)
+    mov.promocion(tablero)
     imprimir_tablero(tablero)
     if not val.validar_victoria('b', tablero):
         print('El jugador negro gana')

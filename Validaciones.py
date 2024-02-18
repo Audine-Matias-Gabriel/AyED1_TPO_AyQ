@@ -1,14 +1,14 @@
 
-def validar_torre(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
-    """
-    Valida si el movimiento de la torre desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
+from typing import List
+
+def validar_torre(inicio_f: int, inicio_c: int, final_f: int, final_c: int, tablero: List[List[str]]) -> bool:
+    """Valida si el movimiento de la torre desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
     Precondición:
     - Todas las coordenadas deben estar en el rango del tablero (0-7).
 
     Postcondición:
-    - Devuelve True si el movimiento es válido para una torre, es decir, si se realiza en la misma fila o columna
-      y no hay piezas intermedias.
+    - Devuelve True si el movimiento es válido para una torre.
     - Devuelve False si el movimiento no es válido.
     """
     if inicio_f == final_f:
@@ -36,16 +36,14 @@ def validar_torre(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
         return False
 
 
-def validar_alfil(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
-    """
-    Valida si el movimiento del alfil desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
+def validar_alfil(inicio_f: int, inicio_c: int, final_f: int, final_c: int, tablero: List[List[str]]) -> bool:
+    """Valida si el movimiento del alfil desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
     Precondición:
     - Todas las coordenadas deben estar en el rango del tablero (0-7).
 
     Postcondición:
-    - Devuelve True si el movimiento es válido para un alfil, es decir, si se realiza en diagonal
-      y no hay piezas intermedias.
+    - Devuelve True si el movimiento es válido para un alfil.
     - Devuelve False si el movimiento no es válido.
     """
     if abs(final_f - inicio_f) == abs(final_c - inicio_c):
@@ -70,16 +68,14 @@ def validar_alfil(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
     else:
         return False
     
-def validar_caballo(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
-    """
-    Valida si el movimiento del caballo desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
+def validar_caballo(inicio_f: int, inicio_c: int, final_f: int, final_c: int, tablero: List[List[str]]) -> bool:
+    """Valida si el movimiento del caballo desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
     Precondición:
     - Todas las coordenadas deben estar en el rango del tablero (0-7).
 
     Postcondición:
-    - Devuelve True si el movimiento es válido para un caballo, es decir, si se realiza en forma de "L"
-      y no hay piezas del mismo color en la casilla final.
+    - Devuelve True si el movimiento es válido para un caballo.
     - Devuelve False si el movimiento no es válido.
     """
     if tablero[final_f][final_c] != '' and \
@@ -94,31 +90,27 @@ def validar_caballo(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
         return False
 
 
-def validar_reina(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
-    """
-    Valida si el movimiento de la reina desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
+def validar_reina(inicio_f: int, inicio_c: int, final_f: int, final_c: int, tablero: List[List[str]]) -> bool:
+    """Valida si el movimiento de la reina desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
     Precondición:
     - Todas las coordenadas deben estar en el rango del tablero (0-7).
 
     Postcondición:
-    - Devuelve True si el movimiento es válido para una reina, es decir, si se realiza en la misma fila, columna
-      o diagonal y no hay piezas intermedias.
+    - Devuelve True si el movimiento es válido para una reina.
     - Devuelve False si el movimiento no es válido.
     """
     return validar_torre(inicio_f, inicio_c, final_f, final_c, tablero) or validar_alfil(inicio_f, inicio_c, final_f, final_c, tablero)
 
 
-def validar_rey(inicio_f, inicio_c, final_f, final_c) -> bool:
-    """
-    Valida si el movimiento del rey desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
+def validar_rey(inicio_f: int, inicio_c: int, final_f: int, final_c: int) -> bool:
+    """Valida si el movimiento del rey desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
     Precondición:
     - Todas las coordenadas deben estar en el rango del tablero (0-7).
 
     Postcondición:
-    - Devuelve True si el movimiento es válido para un rey, es decir, si se realiza en una casilla adyacente
-      en cualquier dirección.
+    - Devuelve True si el movimiento es válido para un rey.
     - Devuelve False si el movimiento no es válido.
     """
     return (0 <= final_f <= 7) and (0 <= final_c <= 7) \
@@ -126,18 +118,14 @@ def validar_rey(inicio_f, inicio_c, final_f, final_c) -> bool:
             and ((abs(final_f - inicio_f) + abs(final_c - inicio_c)) < 3)
 
 
-def validar_peon(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
-    """
-    Valida si el movimiento del peón desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
+def validar_peon(inicio_f: int, inicio_c: int, final_f: int, final_c: int, tablero: List[List[str]]) -> bool:
+    """Valida si el movimiento del peón desde (inicio_f, inicio_c) hasta (final_f, final_c) es válido.
 
     Precondición:
     - Todas las coordenadas deben estar en el rango del tablero (0-7).
-    - El color debe ser 'b' para blanco o 'n' para negro.
 
     Postcondición:
-    - Devuelve True si el movimiento es válido para un peón, teniendo en cuenta el color,
-      es decir, si se mueve hacia adelante y no hay piezas enemigas en la casilla de destino
-      o si captura diagonalmente una pieza enemiga.
+    - Devuelve True si el movimiento es válido para un peón.
     - Devuelve False si el movimiento no es válido.
     """
     if (tablero[inicio_f][inicio_c])[-1] == 'b':
@@ -146,7 +134,16 @@ def validar_peon(inicio_f, inicio_c, final_f, final_c, tablero) -> bool:
         return validar_p_negro(inicio_f, inicio_c, final_f, final_c, tablero)
     return False
 
-def validar_p_blanco(inicio_f, inicio_c, final_f, final_c, tablero):
+def validar_p_blanco(inicio_f: int, inicio_c: int, final_f: int, final_c: int, tablero: List[List[str]]) -> bool:
+    """Valida el movimiento del peon blanco.
+    
+    Precondición:
+    - Todas las coordenadas deben estar en el rango del tablero (0-7).
+    
+    Postcondición:
+    -Devuelve True si el movimiento es válido para un peon blanco.
+    -Devuelve False si el movimiento es inválido.
+    """
     # Peón blanco
     if (final_c == inicio_c) and ('' in tablero[final_f][final_c]) and ((final_f == inicio_f - 1) or ((final_f == inicio_f - 2) and (inicio_f == 6))):
         return True
@@ -155,7 +152,16 @@ def validar_p_blanco(inicio_f, inicio_c, final_f, final_c, tablero):
     else:
         return False
 
-def validar_p_negro(inicio_f, inicio_c, final_f, final_c, tablero):
+def validar_p_negro(inicio_f: int, inicio_c: int, final_f: int, final_c: int, tablero: List[List[str]]) -> bool:
+    """Valida el movimiento del peon negro.
+    
+    Precondición:
+    - Todas las coordenadas deben estar en el rango del tablero (0-7).
+    
+    Postcondición:
+    -Devuelve True si el movimiento es válido para un peon negro.
+    -Devuelve False si el movimiento es inválido.
+    """
     # Peón negro
     if (final_c == inicio_c) and ('' in tablero[final_f][final_c]) and ((final_f == inicio_f + 1) or ((final_f == inicio_f + 2) and (inicio_f == 1))):
         return True
@@ -164,7 +170,16 @@ def validar_p_negro(inicio_f, inicio_c, final_f, final_c, tablero):
     else:
         return False
 
-def validar_victoria(color, tablero) -> bool:
+def validar_victoria(color: str, tablero: List[List[str]]) -> bool:
+    """Valida si algún jugador perdió a su rey.
+    
+    Precondición:
+    -El color es un string "b" o "n".
+    
+    Postcondición:
+    -Devuelve True si el rey aún está en el tablero.
+    -Devuelve False se el rey no se encuentra en el tablero.
+    """
     for fila in tablero:
         for elem in fila:
             if 'rey' in elem and elem.endswith(color):

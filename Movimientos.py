@@ -1,12 +1,87 @@
 
 import Validaciones as val
+from typing import List
+
+def movimiento_blanco(fila: int, columna: int, tablero: List[List[str]]) -> bool:
+    """Compara el string en la ubicación designada del tablero y llama la función correspondiente
+    si es una pieza blanca.
+    
+    Precondición:
+    -La ubicación contiene una pieza blanca.
+    
+    Postcondición:
+    -Si no es una pieza blanca devuelve False.
+    -Si es una pieza blance, llama otra función para moverla.
+    """
+    if not(tablero[fila][columna].endswith('b')):
+        print('No hay una pieza blanca en esa posición')
+        return True
+    elif tablero[fila][columna] == 'peonb':
+        mov_peon_b(fila, columna, tablero)
+        return False
+    elif tablero[fila][columna] == 'torreb':
+        mov_torre_b(fila, columna, tablero)
+        return False
+    elif tablero[fila][columna] == 'alfilb':
+        mov_alfil_b(fila, columna, tablero)
+        return False
+    elif tablero[fila][columna] == 'caballob':
+        mov_caballo_b(fila, columna, tablero)
+        return False
+    elif tablero[fila][columna] == 'reinab':
+        mov_reina_b(fila, columna, tablero)
+        return False
+    elif tablero[fila][columna] == 'reyb':
+        mov_rey_b(fila, columna, tablero)
+        return False
+    else:
+        print('No hay una pieza blanca en esa posición')
+        return True
+    
+
+def movimiento_negro(fila: int, columna: int, tablero: List[List[str]]) -> bool:
+    """Compara el string en la ubicación designada del tablero y llama la función correspondiente
+    si es una pieza negra.
+    
+    Precondición:
+    -La ubicación contiene una pieza negra.
+    
+    Postcondición:
+    -Si no es una pieza negra devuelve False.
+    -Si es una pieza negra, llama otra función para moverla.
+    """
+    if not(tablero[fila][columna].endswith('n')):
+        print('No hay una pieza negra en esa posición')
+        return True
+    elif tablero[fila][columna] == 'peonn':
+        mov_peon_n(fila, columna, tablero)
+        return False
+    elif tablero[fila][columna] == 'torren':
+        mov_torre_n(fila, columna, tablero)
+        return False
+    elif tablero[fila][columna] == 'alfiln':
+        mov_alfil_n(fila, columna, tablero)
+        return False
+    elif tablero[fila][columna] == 'caballon':
+        mov_caballo_n(fila, columna, tablero)
+        return False
+    elif tablero[fila][columna] == 'reinan':
+        mov_reina_n(fila, columna, tablero)
+        return False
+    elif tablero[fila][columna] == 'reyn':
+        mov_rey_n(fila, columna, tablero)
+        return False
+    else:
+        print('No hay una pieza negra en esa posición')
+        return True
 
 def obtener_coordenadas() -> tuple:
     """Obtiene las coordenadas (fila, columna) del usuario.
 
-    pre:
+    Precondición:
 
-    post:Devuelve un tuple con dos enteros representando las coordenadas (fila, columna)
+    Postcondición:
+    - Devuelve un tuple con dos enteros representando las coordenadas (fila, columna)
     ingresadas por el usuario.
     """
     while True:
@@ -18,17 +93,19 @@ def obtener_coordenadas() -> tuple:
             print('Ingrese coordenadas válidas (números enteros).')
 
 
-def mov_peon_b(a, b, tablero) -> None:
+def mov_peon_b(a: int, b: int, tablero: List[List[str]]) -> None:
     """Mueve el peón blanco desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
-    pre:a y b son enteros representando la fila y columna de la posición actual del peón blanco en el tablero.
+    Precondición:
+    - a y b son enteros representando la fila y columna de la posición actual del peón blanco en el tablero.
 
-    post:
-    - Realiza el movimiento si es válido, capturando piezas enemigas en diagonal si es posible.
+    Postcondición:
+    - Realiza el movimiento si es válido.
     - Imprime un mensaje de error si el movimiento no es válido.
     """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -38,7 +115,7 @@ def mov_peon_b(a, b, tablero) -> None:
             print('Movimiento inválido.')
             contador += 1
             continue
-        elif val.validar_peon(a, b, fin_f, fin_c, tablero, 'b'):
+        elif val.validar_peon(a, b, fin_f, fin_c, tablero):
             print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
             tablero[fin_f][fin_c] = ''
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
@@ -49,17 +126,19 @@ def mov_peon_b(a, b, tablero) -> None:
             continue
 
 
-def mov_peon_n(a, b, tablero) -> None:
+def mov_peon_n(a: int, b: int, tablero: List[List[str]]) -> None:
     """Mueve el peón negro desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
-    pre:a y b son enteros representando la fila y columna de la posición actual del peón negro en el tablero.
+    -Precondición:
+    - a y b son enteros representando la fila y columna de la posición actual del peón negro en el tablero.
 
-    post:
-    - Realiza el movimiento si es válido, capturando piezas enemigas en diagonal si es posible.
+    Postcondición:
+    - Realiza el movimiento si es válido.
     - Imprime un mensaje de error si el movimiento no es válido.
     """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -69,7 +148,7 @@ def mov_peon_n(a, b, tablero) -> None:
             print('Movimiento inválido.')
             contador += 1
             continue
-        elif val.validar_peon(a, b, fin_f, fin_c, tablero, 'n'):
+        elif val.validar_peon(a, b, fin_f, fin_c, tablero):
             print(f"¡Pieza {tablero[fin_f][fin_c]} eliminada!")
             tablero[fin_f][fin_c] = ''
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
@@ -81,18 +160,20 @@ def mov_peon_n(a, b, tablero) -> None:
 
 
 
-def mov_torre_b(a, b, tablero) -> None:
+def mov_torre_b(a: int, b: int, tablero: List[List[str]]) -> None:
     """Mueve la torre blanca desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
-    pre:a y b son enteros representando la fila y columna de la posición actual de la torre blanca en
+    Precondición:
+    - a y b son enteros representando la fila y columna de la posición actual de la torre blanca en
     el tablero.
 
-    post:
-    - Realiza el movimiento si es válido, capturando piezas enemigas si es posible.
+    Postcondición:
+    - Realiza el movimiento si es válido.
     - Imprime un mensaje de error si el movimiento no es válido.
     """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -105,7 +186,7 @@ def mov_torre_b(a, b, tablero) -> None:
             print('Movimiento inválido.')
             contador += 1
             continue
-        elif (tablero[fin_f][fin_c] == 'reyb') and (tablero[a][b] == 'torreb') and diccionario_enroque['enroque_blanco'] and valido:
+        elif (tablero[fin_f][fin_c] == 'reyb') and diccionario_enroque['enroque_blanco'] and valido:
             print('¡Enroque!')
             diccionario_enroque['enroque_blanco'] = False
             if fin_c < b:
@@ -136,18 +217,20 @@ def mov_torre_b(a, b, tablero) -> None:
             contador += 1
 
 
-def mov_torre_n(a, b, tablero) -> None:
+def mov_torre_n(a: int, b: int, tablero: List[List[str]]) -> None:
     """Mueve la torre negra desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
-    pre:a y b son enteros representando la fila y columna de la posición actual de la torre negra en
+    Precondición:
+    - a y b son enteros representando la fila y columna de la posición actual de la torre negra en
     el tablero.
 
-    post:
-    - Realiza el movimiento si es válido, capturando piezas enemigas si es posible.
+    Postcondición:
+    - Realiza el movimiento si es válido.
     - Imprime un mensaje de error si el movimiento no es válido.
     """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -160,7 +243,7 @@ def mov_torre_n(a, b, tablero) -> None:
             print('Movimiento inválido.')
             contador += 1
             continue
-        elif (tablero[fin_f][fin_c] == 'reyn') and (tablero[a][b] == 'torren') and diccionario_enroque['enroque_negro'] and valido:
+        elif (tablero[fin_f][fin_c] == 'reyn') and diccionario_enroque['enroque_negro'] and valido:
             print('¡Enroque!')
             diccionario_enroque['enroque_negro'] = False
             if fin_c < b:
@@ -192,9 +275,20 @@ def mov_torre_n(a, b, tablero) -> None:
 
 
 
-def mov_alfil_b(a, b, tablero) -> None:
+def mov_alfil_b(a: int, b: int, tablero: List[List[str]]) -> None:
+    """Mueve el alfil blanco desde la posición (a, b) a una posición objetivo ingresada por el usuario.
+    
+    Precondición:
+    - a y b son enteros representando la fila y columna de la posición actual del alfil blanco en
+    el tablero.
+    
+    Postcondición:
+    - Realiza el movimiento si es válido.
+    - Imprime un mensaje de error si el movimiento no es válido.
+    """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -223,9 +317,20 @@ def mov_alfil_b(a, b, tablero) -> None:
             contador += 1
 
 
-def mov_alfil_n(a, b, tablero) -> None:
+def mov_alfil_n(a: int, b: int, tablero: List[List[str]]) -> None:
+    """Mueve el alfil negro desde la posición (a, b) a una posición objetivo ingresada por el usuario.
+    
+    Precondición:
+    - a y b son enteros representando la fila y columna de la posición actual del alfil negro en
+    el tablero.
+    
+    Postcondición:
+    - Realiza el movimiento si es válido.
+    - Imprime un mensaje de error si el movimiento no es válido.
+    """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -253,19 +358,19 @@ def mov_alfil_n(a, b, tablero) -> None:
             contador += 1
             
 
-def mov_caballo_b(a, b, tablero) -> None:
+def mov_caballo_b(a: int, b: int, tablero: List[List[str]]) -> None:
     """Mueve el caballo blanco desde la posición (a, b) a una posición objetivo ingresada por el usuario.
 
-    pre:
-    - a y b son enteros en el rango del tablero (0-7), representando la fila y columna de la posición
-    actual del caballo blanco.
+    Precondición:
+    - a y b son enteros, representando la fila y columna de la posición actual del caballo blanco.
 
-    post:
-    - Realiza el movimiento si es válido, capturando piezas enemigas si corresponde.
+    Postcondición:
+    - Realiza el movimiento si es válido
     - Imprime un mensaje de error si el movimiento no es válido.
     """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -290,9 +395,19 @@ def mov_caballo_b(a, b, tablero) -> None:
             contador += 1
             continue
         
-def mov_caballo_n(a, b, tablero) -> None:
+def mov_caballo_n(a: int, b: int, tablero: List[List[str]]) -> None:
+    """Mueve el caballo negro desde la posición (a, b) a una posición objetivo ingresada por el usuario.
+
+    Precondición:
+    - a y b son enteros, representando la fila y columna de la posición actual del caballo negro.
+
+    Postcondición:
+    - Realiza el movimiento si es válido
+    - Imprime un mensaje de error si el movimiento no es válido.
+    """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -317,9 +432,20 @@ def mov_caballo_n(a, b, tablero) -> None:
             contador += 1
             continue
 
-def mov_reina_b(a, b, tablero) -> None:
+def mov_reina_b(a: int, b: int, tablero: List[List[str]]) -> None:
+    """Mueve la reina blanca desde la posición (a, b) a una posición objetivo ingresada por el usuario.
+    
+    Precondición:
+    - a y b son enteros representando la fila y columna de la posición actual de la reina blanca en
+    el tablero.
+    
+    Postcondición:
+    - Realiza el movimiento si es válido para el alfil o la torre.
+    - Imprime un mensaje de error si el movimiento no es válido.
+    """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -328,9 +454,9 @@ def mov_reina_b(a, b, tablero) -> None:
         valido = val.validar_reina(a, b, fin_f, fin_c, tablero)
         
         if tablero[fin_f][fin_c].endswith('b'):
-                print('Movimiento inválido.')
-                contador += 1
-                continue
+            print('Movimiento inválido.')
+            contador += 1
+            continue
         elif tablero[fin_f][fin_c].endswith('n') and valido:
             print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
             tablero[fin_f][fin_c] = ''
@@ -344,9 +470,20 @@ def mov_reina_b(a, b, tablero) -> None:
             contador += 1
         
         
-def mov_reina_n(a, b, tablero) -> None:
+def mov_reina_n(a: int, b: int, tablero: List[List[str]]) -> None:
+    """Mueve la reina negra desde la posición (a, b) a una posición objetivo ingresada por el usuario.
+    
+    Precondición:
+    - a y b son enteros representando la fila y columna de la posición actual de la reina negra en
+    el tablero.
+    
+    Postcondición:
+    - Realiza el movimiento si es válido para el alfil o la torre.
+    - Imprime un mensaje de error si el movimiento no es válido.
+    """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -355,9 +492,9 @@ def mov_reina_n(a, b, tablero) -> None:
         valido = val.validar_reina(a, b, fin_f, fin_c, tablero)
         
         if tablero[fin_f][fin_c].endswith('n'):
-                print('Movimiento inválido.')
-                contador += 1
-                continue
+            print('Movimiento inválido.')
+            contador += 1
+            continue
         elif tablero[fin_f][fin_c].endswith('b') and valido:
             print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
             tablero[fin_f][fin_c] = ''
@@ -371,9 +508,20 @@ def mov_reina_n(a, b, tablero) -> None:
             contador += 1
 
 
-def mov_rey_b(a, b, tablero) -> None:
+def mov_rey_b(a: int, b: int, tablero: List[List[str]]) -> None:
+    """Mueve al rey blanco desde la posición (a, b) a una posición objetivo ingresada por el usuario.
+    
+    Precondición:
+    - a y b son enteros representando la fila y columna de la posición actual del rey blanco en
+    el tablero.
+    
+    Postcondición:
+    - Realiza el movimiento si es válido.
+    - Imprime un mensaje de error si el movimiento no es válido.
+    """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -385,14 +533,28 @@ def mov_rey_b(a, b, tablero) -> None:
             print('Movimiento inválido.')
             contador += 1
             continue
+        elif (tablero[fin_f][fin_c] == 'torreb') and diccionario_enroque['enroque_blanco'] and valido:
+            print('¡Enroque!')
+            diccionario_enroque['enroque_blanco'] = False
+            if fin_c < b:
+                tablero[fin_f][fin_c - 1] = tablero[fin_f][fin_c]
+                tablero[fin_f][fin_c] = ''
+                tablero[fin_f][fin_c - 2] = tablero[a][b]
+                tablero[a][b] = ''
+            else:
+                tablero[fin_f][fin_c + 1] = tablero[fin_f][fin_c]
+                tablero[fin_f][fin_c] = ''
+                tablero[fin_f][fin_c + 2] = tablero[a][b]
+                tablero[a][b] = ''
+            break
         elif tablero[fin_f][fin_c].endswith('n') and valido:
             print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
             tablero[fin_f][fin_c] = ''
-            enroque_blanco = False
+            diccionario_enroque['enroque_blanco'] = False
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         elif tablero[fin_f][fin_c].endswith('') and valido:
-            enroque_blanco = False
+            diccionario_enroque['enroque_blanco'] = False
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
@@ -400,9 +562,20 @@ def mov_rey_b(a, b, tablero) -> None:
             contador += 1
             continue
         
-def mov_rey_n(a, b, tablero) -> None:
+def mov_rey_n(a: int, b: int, tablero: List[List[str]]) -> None:
+    """Mueve al rey negro desde la posición (a, b) a una posición objetivo ingresada por el usuario.
+    
+    Precondición:
+    - a y b son enteros representando la fila y columna de la posición actual del rey negro en
+    el tablero.
+    
+    Postcondición:
+    - Realiza el movimiento si es válido.
+    - Imprime un mensaje de error si el movimiento no es válido.
+    """
     contador = 0
     while True:
+        #Si no se mueve correctamente la pieza, se salta el turno
         if contador > 4:
             print('Demasiados intentos')
             return
@@ -414,14 +587,28 @@ def mov_rey_n(a, b, tablero) -> None:
             print('Movimiento inválido.')
             contador += 1
             continue
+        elif (tablero[fin_f][fin_c] == 'torren') and diccionario_enroque['enroque_negro'] and valido:
+            print('¡Enroque!')
+            diccionario_enroque['enroque_negro'] = False
+            if fin_c < b:
+                tablero[fin_f][fin_c - 1] = tablero[fin_f][fin_c]
+                tablero[fin_f][fin_c] = ''
+                tablero[fin_f][fin_c - 2] = tablero[a][b]
+                tablero[a][b] = ''
+            else:
+                tablero[fin_f][fin_c + 1] = tablero[fin_f][fin_c]
+                tablero[fin_f][fin_c] = ''
+                tablero[fin_f][fin_c + 2] = tablero[a][b]
+                tablero[a][b] = ''
+            break
         elif tablero[fin_f][fin_c].endswith('b') and valido:
             print(f'¡Pieza {tablero[fin_f][fin_c]} eliminada!')
             tablero[fin_f][fin_c] = ''
-            enroque_blanco = False
+            diccionario_enroque['enroque_negro'] = False
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         elif tablero[fin_f][fin_c].endswith('') and valido:
-            enroque_blanco = False
+            diccionario_enroque['enroque_negro'] = False
             tablero[a][b], tablero[fin_f][fin_c] = tablero[fin_f][fin_c], tablero[a][b]
             return
         else:
@@ -429,61 +616,26 @@ def mov_rey_n(a, b, tablero) -> None:
             contador += 1
             continue
 
-def promocion(tablero, promos) -> None:
+def promocion(tablero: List[List[str]]) -> None:
+    """Promociona a un peon si llega al otro lado del tablero
+    
+    Precondición:
+    
+    Postcondición:
+    -Cambia un peon por otra pieza a elección del usuario
+    """
+    #Si un peon blanco llega a la parte superior del tablero, promociona
     if 'peonb' in tablero[0]:
         print('Peon blanco promociona')
-        promocionado = promos[int(input('1-Torre, 2-Caballo, 3-Alfil, 4-Reina'))]
+        promocionado = promos[int(input('1-Torre, 2-Caballo, 3-Alfil, 4-Reina: ')) - 1]
         tablero[0][tablero[0].index('peonb')] = promocionado + 'b'
+    
+    #Si un peon negro llega a la parte inferior del tablero, promociona
     if 'peonn' in tablero[-1]:
         print('Peon negro promociona')
-        promocionado = promos[int(input('1-Torre, 2-Caballo, 3-Alfil, 4-Reina'))]
+        promocionado = promos[int(input('1-Torre, 2-Caballo, 3-Alfil, 4-Reina: ')) - 1]
         tablero[-1][tablero[-1].index('peonn')] = promocionado + 'n'
 
-def movimiento_blanco(fila, columna, tablero) -> bool:
-    if tablero[fila][columna] == 'peonb':
-        mov_peon_b(fila, columna, tablero)
-        return False
-    elif tablero[fila][columna] == 'torreb':
-        mov_torre_b(fila, columna, tablero)
-        return False
-    elif tablero[fila][columna] == 'alfilb':
-        mov_alfil_b(fila, columna, tablero)
-        return False
-    elif tablero[fila][columna] == 'caballob':
-        mov_caballo_b(fila, columna, tablero)
-        return False
-    elif tablero[fila][columna] == 'reinab':
-        mov_reina_b(fila, columna, tablero)
-        return False
-    elif tablero[fila][columna] == 'reyb':
-        mov_rey_b(fila, columna, tablero)
-        return False
-    else:
-        print('No hay una pieza blanca en esa posición')
-        return True
-    
-
-def movimiento_negro(fila, columna, tablero) -> bool:
-    if tablero[fila][columna] == 'peonn':
-        mov_peon_b(fila, columna, tablero)
-        return False
-    elif tablero[fila][columna] == 'torren':
-        mov_torre_b(fila, columna, tablero)
-        return False
-    elif tablero[fila][columna] == 'alfiln':
-        mov_alfil_b(fila, columna, tablero)
-        return False
-    elif tablero[fila][columna] == 'caballon':
-        mov_caballo_b(fila, columna, tablero)
-        return False
-    elif tablero[fila][columna] == 'reinan':
-        mov_reina_b(fila, columna, tablero)
-        return False
-    elif tablero[fila][columna] == 'reyn':
-        mov_rey_b(fila, columna, tablero)
-        return False
-    else:
-        print('No hay una pieza negra en esa posición')
-        return True
+promos = ('torre', 'caballo', 'alfil', 'reina')
 
 diccionario_enroque = {'enroque_blanco': True, 'enroque_negro': True}
